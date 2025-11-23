@@ -25,9 +25,10 @@ export default function GameProgressView() {
     } catch (e) {
       // ignore
     }
-    // initialize with defaults
+    // initialize with defaults (use localGuides which is available)
     const initial = {}
-    guides.forEach(g => {
+    const defaults = getGuides()
+    defaults.forEach(g => {
       initial[g.slug] = g.sections.map(s => ({ ...s }))
     })
     return initial
