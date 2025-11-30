@@ -2,6 +2,9 @@
 
 University project: a small React + Tailwind frontend that helps players track game progress and receive spoiler-free tips.
 
+**Live demo:** https://your-netlify-site.netlify.app  
+Replace the URL above with your Netlify site URL (found in your Netlify dashboard) so reviewers can open the live site directly.
+
 ## Project Overview
 
 - Purpose: Provide a UI to track chapters/sections of narrative-driven games and only reveal tips for unlocked chapters.
@@ -10,6 +13,13 @@ University project: a small React + Tailwind frontend that helps players track g
 ## Getting Started (Local)
 
 1. Ensure Node.js (16+) and npm are installed.
+
+If you're unsure which Node version you have, run:
+
+```powershell
+node -v
+npm -v
+```
 
 2. In the project root run these PowerShell commands to install and start the dev server (Vite):
 
@@ -50,6 +60,35 @@ If you used Create React App instead, use `npm start`. This repository is scaffo
 - First time only: run `npm install` to install dependencies.
 - Start dev server: `npm run dev` and open the address Vite prints (usually http://localhost:5173).
 - To build a production bundle: `npm run build` and then `npm run preview` to preview the built site.
+
+## Short checklist for your professor (recommended)
+
+- Open the Live demo URL in a modern browser (Chrome, Edge, Firefox). If the site looks broken, try a hard refresh (Windows: Ctrl+Shift+R).
+- If the page still fails, try an Incognito/Private window or another browser to rule out cache or extension problems.
+- If you'd like to run locally, follow the steps under "Getting Started (Local)" — the exact commands for Windows PowerShell are above.
+
+If you want me to add the Netlify URL into the repository `About` section on GitHub, I can provide the exact text to paste there (this must be done manually in the GitHub UI by whoever owns the repo).
+
+## What I fixed (recent)
+
+- Fixed production build loading problem by correcting `index.html` so Vite can generate hashed asset paths for production builds.
+- Fixed a runtime initialization bug in `src/pages/GameProgressView.jsx` where initial progress referenced a variable before it was defined (caused a ReferenceError in the production bundle).
+
+Both fixes are committed to `main` and pushed — Netlify should redeploy automatically after the latest push. If Netlify hasn't deployed, trigger a manual redeploy from the Netlify site dashboard.
+
+## Troubleshooting (quick)
+
+- Netlify not showing latest changes: go to your site on Netlify -> Deploys -> click the latest deploy to view logs. If there was an issue, trigger "Retry deploy" or click "Trigger deploy".
+- Professor sees blank/JS error: ask them to open browser DevTools (F12) -> Console, copy any errors and share them with you. Common fixes: cache, extension conflicts, or old deployment artifacts.
+- Local build errors: Run `npm ci` (clean install) then `npm run build`. If Node version is below 16, update Node.
+
+## Contact / Feedback
+
+If your professor needs a quick guided test, you can ask them to:
+
+1. Open the Live demo link (replace with actual Netlify URL).
+2. Hard refresh (Ctrl+Shift+R) if they see an old version.
+3. If they still see issues, have them open DevTools → Console and paste any error messages here or open an issue on the repo so I can triage them directly.
 
 ## New features added
 
