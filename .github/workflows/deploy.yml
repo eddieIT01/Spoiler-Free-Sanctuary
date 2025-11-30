@@ -21,6 +21,17 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Debug: show environment
+        run: |
+          echo "--- node/npm versions ---"
+          node -v
+          npm -v
+          echo "--- repo root listing ---"
+          pwd
+          ls -la
+          echo "--- package.json ---"
+          cat package.json
+
       - name: Install dependencies
         run: npm ci
 
