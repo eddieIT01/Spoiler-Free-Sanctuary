@@ -2,7 +2,7 @@
 
 University project: a small React + Tailwind frontend that helps players track game progress and receive spoiler-free tips.
 
-**Live demo:** https://your-netlify-site.netlify.app  
+**Live demo:** https://spoiler-free-sanctuary.netlify.app  
 Replace the URL above with your Netlify site URL (found in your Netlify dashboard) so reviewers can open the live site directly.
 
 ## Project Overview
