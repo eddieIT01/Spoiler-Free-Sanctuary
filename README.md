@@ -139,5 +139,15 @@ Notes:
 - We use `HashRouter` so client-side routing works on GitHub Pages without special server configuration.
 - The workflow uses the official `actions/upload-pages-artifact` and `actions/deploy-pages` steps — no additional secrets are required.
 
+## Backend (Node.js + MySQL)
+
+This project includes a minimal backend scaffold in the `backend/` folder. It demonstrates:
+
+- Node.js + Express API
+- MySQL integration (users and orders entities)
+- User authentication (signup/login) using bcrypt + JWT
+
+To run the backend locally, follow the steps in `backend/README-backend.md`.
+
 
 
