@@ -1,0 +1,16 @@
+name: spoiler-free-sanctuary
+runtime: node
+
+build:
+  builder: nix
+  buildpacks:
+    - nixpacks.io/node
+
+env:
+  - key: NODE_ENV
+    value: production
+  - key: PORT
+    value: 4000
+
+envFiles:
+  - .env

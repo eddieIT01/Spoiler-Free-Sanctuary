@@ -1,0 +1,11 @@
+# Railway deployment configuration
+
+[build]
+builder = "nixpacks"
+
+[environments.production]
+PORT = 4000
+
+[env]
+NODE_ENV = "production"
+PORT = 4000
