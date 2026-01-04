@@ -1,103 +1,363 @@
 # Spoiler-Free Sanctuary
 
-University project: a small React + Tailwind frontend that helps players track game progress and receive spoiler-free tips.
+University project: A full-stack React + Node.js + MySQL application that helps players track game progress and receive spoiler-free tips with user authentication and admin panel.
 
-**Live demo:** https://spoiler-free-sanctuary.netlify.app  
-Replace the URL above with your Netlify site URL (found in your Netlify dashboard) so reviewers can open the live site directly.
+**Live Demo:** [Your Netlify URL]  
+**Backend API:** [Your Railway/Render URL]  
+**Repository:** [Your GitHub URL]
 
 ## Project Overview
 
-- Purpose: Provide a UI to track chapters/sections of narrative-driven games and only reveal tips for unlocked chapters.
-- Tech: React, react-router-dom, Tailwind CSS
+**Purpose:** Provide a secure platform where players can track narrative-driven game progress, receive spoiler-free tips, and create/manage game guides without spoilers.
 
-## Getting Started (Local)
+**Key Features:**
+- User authentication (signup/login) with JWT
+- Progress-based unlocking of game guides
+- Spoiler-safe UI with locked sections
+- CRUD operations for orders and answers
+- Admin panel for content management
+- Responsive dark theme
+- MySQL database with proper relationships
 
-1. Ensure Node.js (16+) and npm are installed.
+## Technology Stack
 
-If you're unsure which Node version you have, run:
+### Frontend
+- **React** - UI framework
+- **React Router** - Client-side routing
+- **Tailwind CSS** - Styling
+- **Vite** - Build tool
 
-```powershell
-node -v
-npm -v
+### Backend
+- **Node.js** - Runtime
+- **Express** - Web framework
+- **MySQL 5.7+** - Database
+- **JWT** - Authentication
+- **bcrypt** - Password hashing
+
+## Project Structure
+
+```
+.
+├── src/                           # Frontend React app
+│   ├── components/
+│   │   ├── AnswerForm.jsx
+│   │   ├── GuideSection.jsx
+│   │   ├── Layout.jsx
+│   │   └── ParticleBackground.jsx
+│   ├── pages/
+│   │   ├── About.jsx
+│   │   ├── Admin.jsx              # Admin panel
+│   │   ├── Contact.jsx
+│   │   ├── Features.jsx
+│   │   ├── GameDetail.jsx
+│   │   ├── GameProgressView.jsx
+│   │   └── Home.jsx
+│   ├── data/
+│   │   ├── guides.js
+│   │   └── tloU_guide.js
+│   ├── utils/
+│   │   └── guideStore.js
+│   ├── App.jsx
+│   ├── router.jsx
+│   ├── main.jsx
+│   └── index.css
+├── backend/                       # Node.js + Express API
+│   ├── src/
+│   │   ├── index.js               # Main app
+│   │   ├── db.js                  # Database config
+│   │   ├── middleware/
+│   │   │   └── auth.js            # JWT middleware
+│   │   └── routes/
+│   │       ├── auth.js            # Auth endpoints
+│   │       ├── users.js           # User CRUD
+│   │       ├── orders.js          # Orders CRUD
+│   │       ├── answers.js         # Answers CRUD
+│   │       └── admin.js           # Admin endpoints
+│   ├── migrations/
+│   │   └── schema.sql             # Database schema
+│   ├── scripts/
+│   │   ├── run_migrations.js
+│   │   └── test_api.js
+│   ├── .env.example
+│   ├── package.json
+│   └── README-backend.md
+├── package.json
+├── postcss.config.cjs
+├── tailwind.config.cjs
+└── README.md
 ```
 
-2. In the project root run these PowerShell commands to install and start the dev server (Vite):
+## Getting Started
 
-```powershell
+### Prerequisites
+- Node.js 16+ and npm
+- MySQL 5.7+ (local or hosted)
+- Git
+
+### Frontend Setup (Local Development)
+
+1. Install dependencies:
+```bash
 npm install
+```
+
+2. Configure environment (create `.env.local` if needed):
+```
+VITE_API_BASE_URL=http://localhost:4000/api
+```
+
+3. Start dev server:
+```bash
 npm run dev
 ```
 
-If you used Create React App instead, use `npm start`. This repository is scaffolded for Vite.
+Open http://localhost:5173 in your browser.
 
-3. Tailwind CSS: This project uses Tailwind classes. If you scaffolded with CRA or Vite, follow Tailwind docs to initialize `tailwind.config.js` and include the `@tailwind` directives in your CSS.
+### Backend Setup (Local Development)
 
-## Key Features
+1. Navigate to backend folder:
+```bash
+cd backend
+```
 
-- Progress-based unlocking: mark chapters as completed to unlock the next section.
-- Spoiler-safe UI: locked sections are blurred/hidden until unlocked.
-- Responsive dark theme: mobile menu and footer included.
+2. Install dependencies:
+```bash
+npm install
+```
 
-## UI Screenshots
+3. Create database and tables:
+```bash
+mysql -u root -p < migrations/schema.sql
+```
 
-- [Placeholder] Add screenshots in `/docs/screenshots` or replace these with images.
+4. Configure environment:
+```bash
+cp .env.example .env
+# Edit .env with your database credentials
+```
 
-## Files of Interest
+Example `.env`:
+```
+PORT=4000
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=your_password
+DB_NAME=spoiler_free_sanctuary
+JWT_SECRET=your_secret_key_here
+ADMIN_USER_ID=1
+```
 
-- `src/App.jsx` — App entry and router wrapper
-- `src/router.jsx` — Route definitions
-- `src/components/Layout.jsx` — Navigation and footer layout
-- `src/components/GuideSection.jsx` — Displays section tips or locked state
-- `src/data/tloU_guide.js` — Mock data for The Last of Us
-- `src/pages/GameProgressView.jsx` — Main interactive page
+5. Start backend server:
+```bash
+npm run dev
+# or for production:
+npm start
+```
 
-## Notes
+Backend runs on http://localhost:4000
 
-- This is a front-end prototype for a university assignment. Integrate a backend or persistent storage for saving user progress across sessions.
- 
-## Run notes
+## Frontend Features
 
-- First time only: run `npm install` to install dependencies.
-- Start dev server: `npm run dev` and open the address Vite prints (usually http://localhost:5173).
-- To build a production bundle: `npm run build` and then `npm run preview` to preview the built site.
+### Pages
+- **Home** - Landing page with featured games
+- **Game Detail** - Detailed game guides with progress tracking
+- **Game Progress View** - Interactive chapter/section completion
+- **Features** - Feature showcase
+- **About** - Project information
+- **Contact** - Contact form
+- **Admin** - Admin dashboard (for user ID 1)
 
-## Short checklist for your professor (recommended)
+### Key Components
+- **Layout** - Navigation and footer
+- **GuideSection** - Displays tips or locked state
+- **AnswerForm** - Create answers/tips
+- **ParticleBackground** - Animated background
 
-- Open the Live demo URL in a modern browser (Chrome, Edge, Firefox). If the site looks broken, try a hard refresh (Windows: Ctrl+Shift+R).
-- If the page still fails, try an Incognito/Private window or another browser to rule out cache or extension problems.
-- If you'd like to run locally, follow the steps under "Getting Started (Local)" — the exact commands for Windows PowerShell are above.
+## Backend API Documentation
 
-If you want me to add the Netlify URL into the repository `About` section on GitHub, I can provide the exact text to paste there (this must be done manually in the GitHub UI by whoever owns the repo).
+### Authentication
+```bash
+POST /api/auth/signup
+{
+  "email": "user@example.com",
+  "password": "password123",
+  "name": "John Doe"
+}
 
-## What I fixed (recent)
+POST /api/auth/login
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+```
 
-- Fixed production build loading problem by correcting `index.html` so Vite can generate hashed asset paths for production builds.
-- Fixed a runtime initialization bug in `src/pages/GameProgressView.jsx` where initial progress referenced a variable before it was defined (caused a ReferenceError in the production bundle).
+### Users
+```bash
+GET /api/users/profile                    # Current user profile
+GET /api/users/:id                        # User by ID
+PUT /api/users/:id                        # Update profile
+DELETE /api/users/:id                     # Delete account
+```
 
-Both fixes are committed to `main` and pushed — Netlify should redeploy automatically after the latest push. If Netlify hasn't deployed, trigger a manual redeploy from the Netlify site dashboard.
+### Orders
+```bash
+POST /api/orders                          # Create order
+GET /api/orders                           # Get all user orders
+GET /api/orders/:id                       # Get order by ID
+PUT /api/orders/:id                       # Update order
+DELETE /api/orders/:id                    # Delete order
+```
 
-## Troubleshooting (quick)
+### Answers
+```bash
+POST /api/answers                         # Create answer
+GET /api/answers                          # Get all user answers
+GET /api/answers/:id                      # Get answer by ID
+PUT /api/answers/:id                      # Update answer
+DELETE /api/answers/:id                   # Delete answer
+```
 
-- Netlify not showing latest changes: go to your site on Netlify -> Deploys -> click the latest deploy to view logs. If there was an issue, trigger "Retry deploy" or click "Trigger deploy".
-- Professor sees blank/JS error: ask them to open browser DevTools (F12) -> Console, copy any errors and share them with you. Common fixes: cache, extension conflicts, or old deployment artifacts.
-- Local build errors: Run `npm ci` (clean install) then `npm run build`. If Node version is below 16, update Node.
+### Admin Endpoints (requires admin token)
+```bash
+GET /api/admin/dashboard                  # Dashboard stats
+GET /api/admin/users                      # All users
+GET /api/admin/users/:id                  # User details
+DELETE /api/admin/users/:id               # Delete user
+GET /api/admin/orders                     # All orders
+DELETE /api/admin/orders/:id              # Delete order
+GET /api/admin/answers                    # All answers
+DELETE /api/admin/answers/:id             # Delete answer
+```
 
-## Contact / Feedback
+See [backend/README-backend.md](backend/README-backend.md) for complete API documentation.
 
-If your professor needs a quick guided test, you can ask them to:
+## Database Schema
 
-1. Open the Live demo link (replace with actual Netlify URL).
-2. Hard refresh (Ctrl+Shift+R) if they see an old version.
-3. If they still see issues, have them open DevTools → Console and paste any error messages here or open an issue on the repo so I can triage them directly.
+### users
+```sql
+id (INT, PK) | name (VARCHAR) | email (VARCHAR, UNIQUE) | password_hash (VARCHAR) | created_at (TIMESTAMP)
+```
 
-## New features added
+### orders
+```sql
+id (INT, PK) | user_id (INT, FK) | title (VARCHAR) | details (TEXT) | created_at (TIMESTAMP)
+```
 
-- Animations: subtle entrance and pop animations added to layout and guide cards.
-- Persistence: chapter completion state is saved to `localStorage` so progress persists across reloads.
+### answers
+```sql
+id (INT, PK) | user_id (INT, FK) | question (VARCHAR) | answer (TEXT) | created_at (TIMESTAMP)
+```
 
-Multi-game support
+## Deployment
 
-- The app now supports multiple games. Add or edit guides in `src/data/guides.js`.
+### Frontend - Netlify
+1. Push code to GitHub
+2. Connect repo to Netlify
+3. Set build command: `npm run build`
+4. Set publish directory: `dist`
+5. Set environment variable: `VITE_API_BASE_URL=<backend_url>`
+6. Deploy
+
+### Backend - Railway
+1. Push code to GitHub
+2. Create new project on Railway
+3. Connect GitHub repo
+4. Add MySQL database
+5. Set environment variables
+6. Deploy
+
+**Or Render:**
+1. Connect GitHub
+2. Create PostgreSQL database
+3. Set environment variables
+4. Deploy
+
+## Running Tests
+
+### API Testing
+```bash
+cd backend
+node scripts/test_api.js
+```
+
+## Build & Preview
+
+### Frontend Production Build
+```bash
+npm run build
+npm run preview
+```
+
+### Backend Production
+```bash
+cd backend
+npm start
+```
+
+## Development Notes
+
+- Frontend uses Vite for fast HMR
+- Backend uses nodemon for auto-reload in dev
+- Database migrations in `backend/migrations/schema.sql`
+- Environment variables must be set before starting servers
+
+## Troubleshooting
+
+### Frontend
+- **CORS errors**: Check `VITE_API_BASE_URL` and backend CORS config
+- **Build errors**: Run `npm ci` then `npm run build`
+- **Blank page**: Check browser console (F12) for errors
+
+### Backend
+- **Database connection**: Verify DB credentials in `.env`
+- **Port in use**: Kill process or change PORT in `.env`
+- **Token errors**: Ensure JWT_SECRET is set consistently
+
+### Netlify
+- Clear cache and redeploy
+- Check deployment logs
+- Hard refresh browser (Ctrl+Shift+R)
+
+## Screenshots
+
+[Add screenshots of:
+- Home page
+- Game detail page with progress tracking
+- Login/signup flow
+- Admin dashboard
+- Mobile responsive view]
+
+## Git Commit History
+
+All commits with descriptive messages are available in the repository history. Notable commits:
+
+- Initial project setup with React + Vite
+- Backend API implementation
+- Database schema and migrations
+- Authentication system
+- CRUD operations
+- Admin panel
+- Error handling and validation
+- Deployment configuration
+
+## License
+
+MIT
+
+## Author
+
+[Your Name]  
+University Project - [Course Name]  
+Date: January 2026
+
+## Support
+
+For issues or questions:
+1. Check the [backend/README-backend.md](backend/README-backend.md) for API details
+2. Open an issue on GitHub
+3. Contact the development team
+
 - Progress is saved per game in `localStorage` under the key `sfs_progress_v1`.
 
 If you prefer not to use localStorage, open `src/pages/GameProgressView.jsx` and remove the storage calls.

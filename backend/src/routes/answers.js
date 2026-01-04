@@ -17,79 +17,79 @@ const handleValidationErrors = (req, res) => {
   return null
 }
 
-// POST /api/orders - Create new order
+// POST /api/answers - Create new answer
 router.post('/',
   requireAuth,
-  body('title')
-    .trim()
-    .notEmpty()
-    .withMessage('Title is required')
-    .isLength({ max: 255 })
-    .withMessage('Title must be less than 255 characters'),
-  body('details')
+  body('question')
     .optional()
     .trim()
+    .isLength({ max: 255 })
+    .withMessage('Question must be less than 255 characters'),
+  body('answer')
+    .trim()
+    .notEmpty()
+    .withMessage('Answer is required')
     .isLength({ max: 5000 })
-    .withMessage('Details must be less than 5000 characters'),
+    .withMessage('Answer must be less than 5000 characters'),
   async (req, res) => {
     const validationError = handleValidationErrors(req, res)
     if (validationError) return
 
-    const { title, details } = req.body
+    const { question, answer } = req.body
 
     try {
       const [result] = await pool.query(
-        'INSERT INTO orders (user_id, title, details) VALUES (?, ?, ?)',
-        [req.user.id, title, details || null]
+        'INSERT INTO answers (user_id, question, answer) VALUES (?, ?, ?)',
+        [req.user.id, question || null, answer]
       )
 
       res.status(201).json({
         success: true,
-        message: 'Order created successfully',
+        message: 'Answer created successfully',
         data: {
           id: result.insertId,
           user_id: req.user.id,
-          title,
-          details: details || null,
+          question: question || null,
+          answer,
           created_at: new Date().toISOString()
         }
       })
     } catch (err) {
-      console.error('Order creation error:', err)
+      console.error('Answer creation error:', err)
       res.status(500).json({
         success: false,
-        message: 'Failed to create order'
+        message: 'Failed to create answer'
       })
     }
   }
 )
 
-// GET /api/orders - Get all orders for the user
+// GET /api/answers - Get all answers for the user
 router.get('/', requireAuth, async (req, res) => {
   try {
     const [rows] = await pool.query(
-      'SELECT id, user_id, title, details, created_at FROM orders WHERE user_id = ? ORDER BY created_at DESC',
+      'SELECT id, user_id, question, answer, created_at FROM answers WHERE user_id = ? ORDER BY created_at DESC',
       [req.user.id]
     )
 
     res.json({
       success: true,
-      message: 'Orders retrieved successfully',
+      message: 'Answers retrieved successfully',
       data: rows
     })
   } catch (err) {
-    console.error('Order retrieval error:', err)
+    console.error('Answer retrieval error:', err)
     res.status(500).json({
       success: false,
-      message: 'Failed to retrieve orders'
+      message: 'Failed to retrieve answers'
     })
   }
 })
 
-// GET /api/orders/:id - Get specific order
+// GET /api/answers/:id - Get specific answer
 router.get('/:id',
   requireAuth,
-  param('id').isInt().withMessage('Invalid order ID'),
+  param('id').isInt().withMessage('Invalid answer ID'),
   async (req, res) => {
     const validationError = handleValidationErrors(req, res)
     if (validationError) return
@@ -98,79 +98,79 @@ router.get('/:id',
 
     try {
       const [rows] = await pool.query(
-        'SELECT id, user_id, title, details, created_at FROM orders WHERE id = ? AND user_id = ?',
+        'SELECT id, user_id, question, answer, created_at FROM answers WHERE id = ? AND user_id = ?',
         [id, req.user.id]
       )
 
       if (rows.length === 0) {
         return res.status(404).json({
           success: false,
-          message: 'Order not found'
+          message: 'Answer not found'
         })
       }
 
       res.json({
         success: true,
-        message: 'Order retrieved successfully',
+        message: 'Answer retrieved successfully',
         data: rows[0]
       })
     } catch (err) {
-      console.error('Order retrieval error:', err)
+      console.error('Answer retrieval error:', err)
       res.status(500).json({
         success: false,
-        message: 'Failed to retrieve order'
+        message: 'Failed to retrieve answer'
       })
     }
   }
 )
 
-// PUT /api/orders/:id - Update order
+// PUT /api/answers/:id - Update answer
 router.put('/:id',
   requireAuth,
-  param('id').isInt().withMessage('Invalid order ID'),
-  body('title')
+  param('id').isInt().withMessage('Invalid answer ID'),
+  body('question')
+    .optional()
+    .trim()
+    .isLength({ max: 255 })
+    .withMessage('Question must be less than 255 characters'),
+  body('answer')
     .optional()
     .trim()
     .notEmpty()
-    .withMessage('Title cannot be empty')
-    .isLength({ max: 255 })
-    .withMessage('Title must be less than 255 characters'),
-  body('details')
-    .optional()
-    .trim()
+    .withMessage('Answer cannot be empty')
     .isLength({ max: 5000 })
-    .withMessage('Details must be less than 5000 characters'),
+    .withMessage('Answer must be less than 5000 characters'),
   async (req, res) => {
     const validationError = handleValidationErrors(req, res)
     if (validationError) return
 
     const { id } = req.params
-    const { title, details } = req.body
+    const { question, answer } = req.body
 
     try {
-      // Check if order exists and belongs to user
-      const [existingOrder] = await pool.query(
-        'SELECT id FROM orders WHERE id = ? AND user_id = ?',
+      // Check if answer exists and belongs to user
+      const [existingAnswer] = await pool.query(
+        'SELECT id FROM answers WHERE id = ? AND user_id = ?',
         [id, req.user.id]
       )
 
-      if (existingOrder.length === 0) {
+      if (existingAnswer.length === 0) {
         return res.status(404).json({
           success: false,
-          message: 'Order not found'
+          message: 'Answer not found'
         })
       }
 
       const updateFields = []
       const updateValues = []
 
-      if (title !== undefined) {
-        updateFields.push('title = ?')
-        updateValues.push(title)
+      if (question !== undefined) {
+        updateFields.push('question = ?')
+        updateValues.push(question)
       }
-      if (details !== undefined) {
-        updateFields.push('details = ?')
-        updateValues.push(details)
+      if (answer !== undefined) {
+        updateFields.push('answer = ?')
+        updateValues.push(answer)
       }
 
       if (updateFields.length === 0) {
@@ -183,28 +183,28 @@ router.put('/:id',
       updateValues.push(id, req.user.id)
 
       await pool.query(
-        `UPDATE orders SET ${updateFields.join(', ')} WHERE id = ? AND user_id = ?`,
+        `UPDATE answers SET ${updateFields.join(', ')} WHERE id = ? AND user_id = ?`,
         updateValues
       )
 
       res.json({
         success: true,
-        message: 'Order updated successfully'
+        message: 'Answer updated successfully'
       })
     } catch (err) {
-      console.error('Order update error:', err)
+      console.error('Answer update error:', err)
       res.status(500).json({
         success: false,
-        message: 'Failed to update order'
+        message: 'Failed to update answer'
       })
     }
   }
 )
 
-// DELETE /api/orders/:id - Delete order
+// DELETE /api/answers/:id - Delete answer
 router.delete('/:id',
   requireAuth,
-  param('id').isInt().withMessage('Invalid order ID'),
+  param('id').isInt().withMessage('Invalid answer ID'),
   async (req, res) => {
     const validationError = handleValidationErrors(req, res)
     if (validationError) return
@@ -212,33 +212,33 @@ router.delete('/:id',
     const { id } = req.params
 
     try {
-      // Check if order exists and belongs to user
-      const [existingOrder] = await pool.query(
-        'SELECT id FROM orders WHERE id = ? AND user_id = ?',
+      // Check if answer exists and belongs to user
+      const [existingAnswer] = await pool.query(
+        'SELECT id FROM answers WHERE id = ? AND user_id = ?',
         [id, req.user.id]
       )
 
-      if (existingOrder.length === 0) {
+      if (existingAnswer.length === 0) {
         return res.status(404).json({
           success: false,
-          message: 'Order not found'
+          message: 'Answer not found'
         })
       }
 
       await pool.query(
-        'DELETE FROM orders WHERE id = ? AND user_id = ?',
+        'DELETE FROM answers WHERE id = ? AND user_id = ?',
         [id, req.user.id]
       )
 
       res.json({
         success: true,
-        message: 'Order deleted successfully'
+        message: 'Answer deleted successfully'
       })
     } catch (err) {
-      console.error('Order deletion error:', err)
+      console.error('Answer deletion error:', err)
       res.status(500).json({
         success: false,
-        message: 'Failed to delete order'
+        message: 'Failed to delete answer'
       })
     }
   }
