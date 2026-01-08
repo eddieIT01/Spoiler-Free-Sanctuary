@@ -23,6 +23,9 @@ export default function Layout() {
                 <Link to="/features" className="px-3 py-2 rounded-md text-sm font-medium hover:text-indigo-300 transform transition hover:-translate-y-0.5">Features</Link>
                 <Link to="/about" className="px-3 py-2 rounded-md text-sm font-medium hover:text-indigo-300 transform transition hover:-translate-y-0.5">About</Link>
                 <Link to="/contact" className="px-3 py-2 rounded-md text-sm font-medium hover:text-indigo-300 transform transition hover:-translate-y-0.5">Contact</Link>
+                <Link to="/database" className="px-3 py-2 rounded-md text-sm font-medium bg-red-600 text-black hover:brightness-110 transform transition hover:scale-105">Database</Link>
+                <Link to="/login" className="px-3 py-2 rounded-md text-sm font-medium hover:text-indigo-300 transform transition hover:-translate-y-0.5">Login</Link>
+                <Link to="/signup" className="px-3 py-2 rounded-md text-sm font-medium hover:text-indigo-300 transform transition hover:-translate-y-0.5">Sign Up</Link>
                 <Link to="/game-progress" className="px-3 py-2 rounded-md text-sm font-medium bg-indigo-600 text-black hover:brightness-110 transform transition hover:scale-105">Game Progress</Link>
                 <Link to="/admin" className="px-3 py-2 rounded-md text-sm font-medium bg-gray-700 text-gray-100 hover:brightness-110 transform transition hover:scale-105">Admin</Link>
               </nav>
@@ -53,6 +56,9 @@ export default function Layout() {
               <Link to="/features" onClick={() => setOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 transition">Features</Link>
               <Link to="/about" onClick={() => setOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 transition">About</Link>
               <Link to="/contact" onClick={() => setOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 transition">Contact</Link>
+              <Link to="/database" onClick={() => setOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium bg-red-600 text-black transition">Database</Link>
+              <Link to="/login" onClick={() => setOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 transition">Login</Link>
+              <Link to="/signup" onClick={() => setOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium bg-indigo-600 text-black transition">Sign Up</Link>
               <Link to="/game-progress" onClick={() => setOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium bg-indigo-600 text-black transition">Game Progress</Link>
             </div>
           </div>

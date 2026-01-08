@@ -1,16 +1,5 @@
 import React, { useState } from 'react'
-
-async function submitAnswer(token, question, answer) {
-  const res = await fetch('/api/answers', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
-    },
-    body: JSON.stringify({ question, answer })
-  })
-  return res.json()
-}
+import { submitAnswer } from '../utils/api'
 
 export default function AnswerForm({ token }) {
   const [question, setQuestion] = useState('')
